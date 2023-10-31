@@ -28,7 +28,7 @@ class Task {
     }
 }
 
-public class Main {
+public class TodoList {
     private ArrayList<Task> tasks;
 
     public TodoList() {
@@ -83,33 +83,49 @@ public class Main {
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter the task description: ");
-                    String description = scanner.nextLine();
-                    todoList.addTask(description);
-                    break;
-                case 2:
-                    todoList.listTasks();
-                    break;
-                case 3:
-                    System.out.print("Enter the task number to mark as done: ");
-                    int taskIndex = scanner.nextInt();
-                    todoList.markTaskAsDone(taskIndex);
-                    break;
-                case 4:
-                    System.out.print("Enter the task number to delete: ");
-                    taskIndex = scanner.nextInt();
-                    todoList.deleteTask(taskIndex);
-                    break;
-                case 5:
-                    System.out.println("Goodbye!");
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid choice. Please choose a valid option.");
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter the task description: ");
+                        String description = scanner.nextLine();
+                        todoList.addTask(description);
+                        break;
+                    case 2:
+                        todoList.listTasks();
+                        break;
+                    case 3:
+                        System.out.print("Enter the task number to mark as done: ");
+                        if (scanner.hasNextInt()) {
+                            int taskIndex = scanner.nextInt();
+                            scanner.nextLine(); // Consume the newline character
+                            todoList.markTaskAsDone(taskIndex);
+                        } else {
+                            System.out.println("Invalid input. Please enter a valid task number.");
+                        }
+                        break;
+                    case 4:
+                        System.out.print("Enter the task number to delete: ");
+                        if (scanner.hasNextInt()) {
+                            int taskIndex = scanner.nextInt();
+                            scanner.nextLine(); // Consume the newline character
+                            todoList.deleteTask(taskIndex);
+                        } else {
+                            System.out.println("Invalid input. Please enter a valid task number.");
+                        }
+                        break;
+                    case 5:
+                        System.out.println("Goodbye!");
+                        scanner.close();
+                        System.exit(0);
+                    default:
+                        System.out.println("Invalid choice. Please choose a valid option.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid choice.");
+                scanner.nextLine(); // Consume the invalid input
             }
         }
     }
